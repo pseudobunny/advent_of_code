@@ -33,7 +33,6 @@ fn calibration_value_part_one(line: &str) -> u32 {
 }
 
 fn sum_calibration_values_part_two(lines: &[String]) -> u32 {
-    println!("{}", lines.len());
     lines
         .iter()
         .map(|line| calibration_value_part_two(line))
