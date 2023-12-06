@@ -117,10 +117,9 @@ impl Game {
     }
 }
 
-fn possible_ids_sum(lines: &[String]) -> u32 {
-    lines
+fn possible_ids_sum(games: &[Game]) -> u32 {
+    games
         .iter()
-        .filter_map(|line| line.parse::<Game>().map_or(None, |game| Some(game)))
         .filter_map(|game| {
             if game.is_possible() {
                 Some(game.id)
@@ -131,10 +130,10 @@ fn possible_ids_sum(lines: &[String]) -> u32 {
         .sum()
 }
 
-fn game_power_sum(lines: &[String]) -> u32 {
-    lines
+fn game_power_sum(games: &[Game]) -> u32 {
+    games
         .iter()
-        .filter_map(|line| line.parse::<Game>().map_or(None, |game| Some(game.power())))
+        .map(|game| game.power())
         .sum()
 }
 
@@ -145,9 +144,13 @@ fn main() -> Result<()> {
         .expect("A filename must be passed as an argument.");
 
     let file_lines = lines_from_file(&filename);
+    let games: Vec<Game> = file_lines
+        .iter()
+        .map(|line| line.parse())
+        .collect::<Result<_>>()?;
 
-    println!("Part One: {}", possible_ids_sum(&file_lines));
-    println!("Part Two: {}", game_power_sum(&file_lines));
+    println!("Part One: {}", possible_ids_sum(&games));
+    println!("Part Two: {}", game_power_sum(&games));
 
     Ok(())
 }
@@ -188,16 +191,23 @@ mod tests {
 
     #[test]
     fn test_possible_game_sum() {
+        let lines = &[
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green".to_string(),
+            "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue".to_string(),
+            "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"
+                .to_string(),
+            "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
+                .to_string(),
+            "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green".to_string()
+        ];
+
+        let games: Vec<Game> = lines
+        .iter()
+        .map(|line| line.parse().unwrap())
+        .collect();
+
         assert_eq!(
-            possible_ids_sum(&[
-                "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green".to_string(),
-                "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue".to_string(),
-                "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"
-                    .to_string(),
-                "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
-                    .to_string(),
-                "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green".to_string()
-            ]),
+            possible_ids_sum(&games),
             8
         )
     }
@@ -243,16 +253,23 @@ mod tests {
 
     #[test]
     fn test_game_power_sum() {
+        let lines = &[
+            "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green".to_string(),
+            "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue".to_string(),
+            "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"
+                .to_string(),
+            "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
+                .to_string(),
+            "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green".to_string()
+        ];
+
+        let games: Vec<Game> = lines
+        .iter()
+        .map(|line| line.parse().unwrap())
+        .collect();
+        
         assert_eq!(
-            game_power_sum(&[
-                "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green".to_string(),
-                "Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue".to_string(),
-                "Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red"
-                    .to_string(),
-                "Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red"
-                    .to_string(),
-                "Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green".to_string()
-            ]),
+            game_power_sum(&games),
             2286
         )
     }
