@@ -145,7 +145,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_part_number_sum_part_one() {
+    fn test_stack_winnings_part_one() {
         let lines = [
             "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53".to_string(),
             "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19".to_string(),
@@ -164,7 +164,7 @@ mod tests {
     }
 
     #[test]
-    fn test_part_number_sum_part_two() {
+    fn test_stack_winnings_part_two() {
         let lines = [
             "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53".to_string(),
             "Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19".to_string(),
