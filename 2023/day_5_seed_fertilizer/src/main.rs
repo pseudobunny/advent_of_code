@@ -152,7 +152,7 @@ fn main() -> Result<()> {
 mod tests {
     use super::*;
 
-    const test_input: &str = "
+    const TEST_INPUT: &str = "
     seeds: 79 14 55 13
 
     seed-to-soil map:
@@ -189,7 +189,7 @@ mod tests {
 
     #[test]
     fn test_part_one() {
-        let test_lines: Vec<String> = test_input.split("\n").map(|s| s.to_string()).collect();
+        let test_lines: Vec<String> = TEST_INPUT.split("\n").map(|s| s.to_string()).collect();
 
         let seed_maps = SeedsAndMaps::new(&test_lines).unwrap();
         assert_eq!(seed_maps.min_seed_location(), 35);
@@ -197,7 +197,7 @@ mod tests {
 
     #[test]
     fn test_part_two() {
-        let test_lines: Vec<String> = test_input.split("\n").map(|s| s.to_string()).collect();
+        let test_lines: Vec<String> = TEST_INPUT.split("\n").map(|s| s.to_string()).collect();
 
         let seed_maps = SeedsAndMaps::new(&test_lines).unwrap();
         assert_eq!(seed_maps.min_seed_range_location(), 46);
